@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Smooth scroll</title>
+	<!-- <script src="./anime.min.js"></script> -->
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			font-family: sans-serif;
+		}
+		section {
+			height: 100vh;
+			font-size: 120px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-weight: 700;
+			color: #ffffff;
+			/*text-transform: uppercase;*/
+		}
+		#section1 {
+			background-color: #A962D9;
+		}
+		#section2 {
+			background-color: #0B9ED9;
+		}
+		#section3 {
+			background-color: #7343D9;
+		}
+		#section4 {
+			background-color: #0AADBF;
+		}
+		.links {
+			position: fixed;
+			z-index: 100;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			padding: 20px;
+			background-color: #0CF2F2;
+		}
+		.buttons {
+			position: fixed;
+			z-index: 100;
+			bottom: 0;
+			/*left: 500px;*/
+			left: 50%;
+			transform: translateX(-50%);
+			padding: 20px;
+			background-color: #0CF2F2;
+		}
+	</style>
+</head>
+<body>
+	<div class="links">
+		<a href="#section1">Section 1</a>
+		<a href="#section2">Section 2</a>
+		<a href="#section3">Section 3</a>
+		<a href="#section4">Section 4</a>
+	</div>
+	<div class="buttons">
+		<button id="btn1">go to top</button>
+		<button id="btn2">go to bottom</button>
+		<button id="btn3">random scroll</button>
+	</div>
+	<section id="section1">Section 1</section>
+	<section id="section2">Section 2</section>
+	<section id="section3">Section 3</section>
+	<section id="section4">Section 4</section>
+
+	<script type="module">
+  	import smoothScroll from './smoothScroll.js';
+
+		console.log("use web-server, CORS must be enabled");
+
+		/* sections links */
+		const links = document.querySelectorAll("a");
+		for (let i = 0; i < links.length; i++) {
+			links[i].addEventListener("click", linkHandler);
+		}
+
+		function linkHandler(e) {
+			e.preventDefault();
+			smoothScroll(this.hash);
+			history.pushState(null, null, this.hash);
+		}
+
+		/* buttons */
+		const btn1 = document.querySelector("#btn1");
+		btn1.addEventListener("click", () => {
+			smoothScroll(0);
+		});
+
+		const btn2 = document.querySelector("#btn2");
+		btn2.addEventListener("click", () => {
+			smoothScroll(window.scrollMaxY);
+		});
+
+		const btn3 = document.querySelector("#btn3");
+		btn3.addEventListener("click", () => {
+			smoothScroll(Math.random() * window.scrollMaxY);
+		});
+	</script>
+</body>
+</html>
